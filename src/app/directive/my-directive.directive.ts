@@ -9,11 +9,15 @@ export class MyDirectiveDirective {
   constructor(private el: ElementRef) {}
 
   @HostListener('click', ['$event'])
-  onClick(event) {
+  onClick = (event) => this.action(event);
+
+  action(event) {
     let current: string = this.el.nativeElement.value;
-    let next: string =
-      current.substring(0, this.el.nativeElement.selectionStart) +
-      event.key +
-      current.substring(this.el.nativeElement.selectionEnd);
+    let element = current.search('_');
+    if (element >= 0) {
+      event.setSelectionRange(element, element);
+    } else {
+      event.setSelectionRange(element, current.length);
+    }
   }
 }
