@@ -7,7 +7,15 @@ export class MyDirectiveDirective {
   
   constructor(private el: ElementRef) {}
 
-  @HostListener('click') onClick = (event) => this.action(event);
+  @HostListener('focus', ['$event.target'])
+  onFocus(event): void {
+   this.action(event);
+ }
+
+ @HostListener('click', ['$event.target']) 
+  onClick(event): void {
+    this.action(event);
+  }
 
   action(event): void {
     let current: string = this.el.nativeElement.value;
